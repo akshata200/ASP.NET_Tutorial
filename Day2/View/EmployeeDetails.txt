@@ -1,0 +1,8 @@
+
+@model Employee
+
+<h3>Employee ID : @Model.EId</h3><br />
+<h3>Employee Name : @Model.EName</h3><br />
+<h3>Job : @Model.Job</h3><br />
+<h3>Salary : @Model.Salary</h3><br />
+<h3>Department No. : @Model.DeptNo</h3><br />

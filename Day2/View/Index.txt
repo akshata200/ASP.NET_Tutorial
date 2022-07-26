@@ -1,0 +1,27 @@
+@using WebApplication3.Models
+@model List<Employee>
+
+<p><a href="/Employee/Create">Create New Employee</a></p>
+<h3>Employee Details</h3><br />
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Job</th>
+        <th>Salary</th>
+        <th>Department No</th>
+    </tr>
+    @foreach(Employee item in Model)
+    {
+        <tr>
+            <td>@item.EId</td>
+            <td>@item.EName</td>
+            <td>@item.Job</td>
+            <td>@item.Salary</td>
+            <td>@item.DeptNo</td>
+            <td><a href="/Employee/EmployeeDetails/@item.EId">View</a> |</td>
+            <td><a href="/Employee/EmployeeDetails/@item.EId">Edit</a> |</td>
+            <td><a href="/Employee/EmployeeDetails/@item.EId">Delete</a></td>
+        </tr>
+    }
+</table>

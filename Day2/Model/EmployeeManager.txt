@@ -1,0 +1,40 @@
+namespace WebApplication3.Models
+{
+    public class EmployeeManager
+    {
+        List<Employee> empList;
+
+        public EmployeeManager()
+        {
+            empList = new List<Employee>() {
+                new Employee(){ EId=1,EName="Smith",Job="Manager",Salary=45000,DeptNo=10},
+                new Employee(){ EId=2,EName="Dean",Job="Architect",Salary=23000,DeptNo=11},
+                new Employee(){ EId=3,EName="Samira",Job="Developer",Salary=31000,DeptNo=12},
+                new Employee(){ EId=4,EName="Max",Job="Sales",Salary=55000,DeptNo=13},
+            };
+        }
+
+        public List<Employee> GetAllEmployee()
+        {
+            return empList;
+        }
+
+        public Employee GetSingleEmployee(int id)
+        {
+            Employee EmployeeObj = empList.SingleOrDefault(item => item.EId == id);
+            return EmployeeObj;
+        }
+        public void AddEmployee(Employee obj) { 
+            empList.Add(obj);
+        }
+        public void DeleteEmployee(int id) {
+            Employee EmployeeObj = empList.SingleOrDefault(item => item.EId == id);
+            empList.Remove(EmployeeObj);
+        }
+        public void UpdateEmployee(Employee newObj) {
+            Employee oldObj = empList.SingleOrDefault(item => item.EId == newObj.EId);
+            empList.Remove(oldObj);
+            empList.Add(newObj);
+        }
+    }
+}

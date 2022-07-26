@@ -1,0 +1,27 @@
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Employee
+
+<h3>Employee Details</h3>
+<form action="/Employee/Edit" method="post">
+    <label>Employee ID : </label>
+    <input name="EId" type="text" readonly value="@Model.EId" />
+    <br />
+    <label>Employee Name : </label>
+    <input name="EName" type="text" value="@Model.EName" />
+    <br />
+    <label>Job : </label>
+    <input name="Job" type="text" value="@Model.Job"/>
+    <br />
+    <label>Salary : </label>
+    <input name="Salary" type="text" value="@Model.Salary" />
+    <br />
+    <label>Department No : </label>
+    <input name="DeptNo" type="text" value="@Model.DeptNo"/>
+    <br />
+    <input type="submit" value="Edit" />
+</form>
