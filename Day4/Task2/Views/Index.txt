@@ -1,0 +1,4 @@
+@{
+    ViewData["Title"] = "CustomError";
+}
+<h1>Custom Error for Employee Error : For Job Error</h1>

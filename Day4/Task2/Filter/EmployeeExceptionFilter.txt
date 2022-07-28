@@ -1,0 +1,30 @@
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
+using log4net;
+
+namespace WebApplication4.Filters
+{
+    public class EmployeeExceptionFilter : IExceptionFilter
+    {
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EmployeeExceptionFilter));
+        public void OnException(ExceptionContext context)
+        {
+            _logger.Error(context.Exception.Message);
+            string controllerName = context.RouteData.Values["controller"].ToString();
+            string actionName = context.RouteData.Values["action"].ToString();
+            _logger.Info("Exception was throw by " + actionName + " in " + controllerName);
+            context.ExceptionHandled = true;
+
+
+            if(controllerName.Equals("Employee") && actionName.Equals("EmployeeByJob"))
+            {
+                context.Result = new ViewResult() { ViewName = "CustomJobDisplayError" };
+            }
+            else
+            {
+                context.Result = new ViewResult() { ViewName = "CustomError" };
+            }
+
+        }
+    }
+}
