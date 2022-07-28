@@ -1,0 +1,116 @@
+using Microsoft.AspNetCore.Mvc;
+using WebApplication4.Models;
+using WebApplication4.Repository;
+using WebApplication4.Filters;
+
+namespace WebApplication4.Controllers
+{
+    public class EmployeeController : Controller
+    {
+        IEmployeeRepo _repo;
+        private readonly ILogger<EmployeeController> _logger;
+
+        public EmployeeController(IEmployeeRepo repo, ILogger<EmployeeController> logger)
+        {
+            _repo = repo;
+            _logger = logger;
+        }
+
+        [TypeFilter(typeof(EmployeeExceptionFilter))]
+        public IActionResult Index()
+        {
+            _logger.LogInformation("Display all Employees");
+            List<Employee> empList = _repo.GetAllEmployee();
+            return View(empList);
+        }
+
+
+        [HttpPost]
+        [TypeFilter(typeof(EmployeeExceptionFilter))]
+        public IActionResult EmployeeByDeptNo(int id)
+        {
+            _logger.LogInformation("Display Employee whose Department No. is " + id);
+            IEnumerable<Employee> empList = _repo.GetEmployeeByDeptNo(id);
+            if (empList.Count() == 0)
+            {
+                throw new Exception();
+            }
+            return View(empList);
+        }
+
+        [HttpPost]
+        [TypeFilter(typeof(EmployeeExceptionFilter))]
+        public IActionResult EmployeeByJob(string job)
+        {
+            _logger.LogInformation("Display Employee whose Job is " + job);
+            IEnumerable<Employee> empList = _repo.GetEmployeeByJob(job);
+            if (empList.Count() == 0)
+            {
+                throw new Exception();
+            }
+            return View(empList);
+        }
+
+        [HttpGet]
+        [TypeFilter(typeof(EmployeeExceptionFilter))]
+        public IActionResult Create()
+        {
+            _logger.LogInformation("Show create new Employee Page");
+            return View();
+        }
+
+        [HttpPost]
+        [TypeFilter(typeof(EmployeeExceptionFilter))]
+        public IActionResult Create(Employee obj)
+        {
+            _logger.LogInformation("Add created employee to database and show index page");
+            _repo.AddEmployee(obj);
+            return RedirectToAction("Index");
+        }
+
+        [TypeFilter(typeof(EmployeeExceptionFilter))]
+        public IActionResult Details(int id)
+        {
+            _logger.LogInformation("Display information of employee whose ID is " + id);
+            Employee obj = _repo.GetEmployeeById(id);
+            return View(obj);
+        }
+
+        [HttpGet]
+        [TypeFilter(typeof(EmployeeExceptionFilter))]
+        public IActionResult Edit(int id)
+        {
+            _logger.LogInformation("Display Edit Page for Employee whose ID is "+id);
+            Employee obj = _repo.GetEmployeeById(id);
+            return View(obj);
+        }
+
+        [HttpPost]
+        [TypeFilter(typeof(EmployeeExceptionFilter))]
+        public IActionResult Edit(Employee obj)
+        {
+            _logger.LogInformation("Update the edited information in databasefor Employee whose ID is " + obj.EmployeeId);
+            _repo.UpdateEmployee(obj);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [TypeFilter(typeof(EmployeeExceptionFilter))]
+        public IActionResult Delete(int id)
+        {
+            _logger.LogInformation("Display Delete confirmation page for Employee whose ID is " + id);
+            Employee obj = _repo.GetEmployeeById(id);
+            return View(obj);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [TypeFilter(typeof(EmployeeExceptionFilter))]
+        public IActionResult DeleteConfirm(int id)
+        {
+            _logger.LogInformation("Delete employee from database whose ID is " + id);
+            _repo.DeleteEmployee(id);
+            return RedirectToAction("Index");
+        }
+    }
+}
