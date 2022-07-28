@@ -1,0 +1,69 @@
+@model IEnumerable<WebApplication4.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<br />
+   <form asp-action="EmployeeByDeptNo">
+       <div class="form-group">
+           <input name="id" class="form-control" />
+           <input type="submit" value="Search By Department No." class="btn btn-primary" />
+       </div>
+   </form>
+   <br />
+   <form asp-action="EmployeeByJob">
+       <div class="form-group">
+           <input name="job" class="form-control" />
+           <input type="submit" value="Search By Job" class="btn btn-primary" />
+       </div>
+   </form>
+   <br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Job)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptNo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Job)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeptNo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EmployeeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EmployeeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EmployeeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
