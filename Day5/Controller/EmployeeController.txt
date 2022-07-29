@@ -1,0 +1,66 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebApplication6.Models;
+
+namespace WebApplication6.Controllers
+{
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EmployeeController : ControllerBase
+    {
+        EmployeeDBContext _context;
+
+        public EmployeeController(EmployeeDBContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllEmployee()
+        {
+            var empList = await _context.Employees.ToListAsync();
+            return Ok(empList);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEmployeeById(int id)
+        {
+            Employee obj = await _context.Employees.FindAsync(id);
+            if(obj != null)
+            {
+                return Ok(obj);
+            }
+            else
+            {
+                return NotFound("Requested Employee " + id + " does not exists");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddEmployee(Employee obj)
+        {
+            await _context.Employees.AddAsync(obj);
+            await _context.SaveChangesAsync();
+            return Ok("New Employee Details are added in Database");
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateEmployee(Employee obj)
+        {
+            _context.Employees.Update(obj);
+            await _context.SaveChangesAsync();
+            return Ok("Employees Details are updated in Database");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEmployee(int id)
+        {
+            Employee obj = await _context.Employees.FindAsync(id);
+            _context.Employees.Remove(obj);
+            await _context.SaveChangesAsync();
+            return Ok("Employee Details are deleted from Database");
+        }
+    }
+}
